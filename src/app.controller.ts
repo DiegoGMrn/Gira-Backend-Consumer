@@ -1,12 +1,27 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
-
+import { Controller } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
+import { Cats } from './dtos/cat.dtos';
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  
+
+
+  @MessagePattern({ cmd: 'cats' })
+  async getCatName(name: string): Promise<string> {
+    return `Cat name ${name}`;
   }
+  
+  @MessagePattern({ cmd: 'allcats' })
+  async getAll(cat: Cats): Promise<string> {
+    return `Cat data ${cat.name} y ${cat.clave}`;
+  }
+
+  @MessagePattern({ cmd: 'createcats'})
+  async create(): Promise<string>{
+    return `AGREGADO`;
+  }
+  
+  
 }

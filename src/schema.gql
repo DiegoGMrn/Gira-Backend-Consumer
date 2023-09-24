@@ -1,0 +1,13 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Cats {
+  id: Int!
+  nombre: String!
+  clave: String
+}
+
+type Query {
+  cats: [Cats!]!
+}
