@@ -1,20 +1,29 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { Cats } from './cats.entity'
 import { MessagePattern } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCatInput } from './dto/create-cat.input';
-
+import { ClientProxy } from '@nestjs/microservices';
 @Injectable()
 export class CatsService {
-    constructor(@InjectRepository(Cats) private catsRepository:Repository<Cats>){}
+    constructor(@Inject('CATS_SERVICE') private readonly client: ClientProxy,@InjectRepository(Cats) private catsRepository:Repository<Cats>){}
     findAll(): Promise<Cats[]>{
         return this.catsRepository.find()
     }
-
-    createCat(cat: CreateCatInput):Promise<Cats>{
+    /*
+    async createCat(cat: CreateCatInput):Promise<Cats>{
         const newCat = this.catsRepository.create(cat)
-        return this.catsRepository.save(newCat)
+        
+        await this.catsRepository.save(newCat)
+        await this.client.emit('new_cat_created', newCat);
+        return newCat;
+    }*/
+    
+    async createCat(cat: CreateCatInput):Promise<void>{
+        
+        await this.client.emit('new_cat_created', cat).toPromise();
+        
     }
 
 

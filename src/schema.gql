@@ -17,6 +17,6 @@ type Mutation {
 }
 
 input CreateCatInput {
-  name: String!
-  clave: String!
+  name: String
+  clave: String
 }
