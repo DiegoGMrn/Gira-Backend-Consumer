@@ -7,6 +7,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import {join} from 'path'
 import { CatsModule } from './cats/cats.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [GraphQLModule.forRoot<ApolloDriverConfig>({
     driver: ApolloDriver,
@@ -25,8 +26,18 @@ import { CatsModule } from './cats/cats.module';
           },
         },
       },
-    ]),
-    ],
+    ]),TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3307,
+      username: 'user_crud',
+      password: 'root',
+      database: 'db_crud',
+      autoLoadEntities:true,
+      synchronize: true,
+      entities: [__dirname + '/**/*.entity{.ts,.js'],
+      
+    }) ],
   controllers: [AppController],
   providers: [AppService],
 })

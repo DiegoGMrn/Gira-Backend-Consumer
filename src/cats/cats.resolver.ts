@@ -1,22 +1,21 @@
 import { Query, Resolver,Args,Mutation } from '@nestjs/graphql';
 import { CatsService } from './cats.service';
 import { Cats } from './cats.entity';
+import { Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { CreateCatInput } from './dto/create-cat.input';
 @Resolver()
 export class CatsResolver {
-    constructor(private catsService: CatsService){}
+    constructor(@Inject('CATS_SERVICE') private client: ClientProxy,private catsService: CatsService){}
+    
     @Query((returns) =>[Cats])
     cats(){
         return this.catsService.findAll();
     }
-    /*
-    @Mutation()
+    @Mutation((returns) => Cats)
     createCats(@Args('catInput') catInput:CreateCatInput){
-        this.catsService.create();
-    }*/
-    
-    
-
+        return this.catsService.createCat(catInput);
+    }
 
 
 }

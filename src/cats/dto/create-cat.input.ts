@@ -4,7 +4,7 @@ import {Field, InputType } from '@nestjs/graphql';
 export class CreateCatInput{
     
     @Field()
-    nombre: string;
+    name: string;
     @Field()
     clave: string;
 }

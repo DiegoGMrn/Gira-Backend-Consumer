@@ -1,11 +1,16 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Column, Entity ,PrimaryGeneratedColumn} from 'typeorm';
 
+@Entity()
 @ObjectType()
 export class Cats{
-    @Field((type) => Int)
+    @PrimaryGeneratedColumn()
+    @Field((type)=>Int)
     id: number;
+    @Column()
     @Field()
-    nombre: string;
+    name: string;
+    @Column()
     @Field({nullable:true})
     clave: string;
 }

@@ -4,10 +4,19 @@
 
 type Cats {
   id: Int!
-  nombre: String!
+  name: String!
   clave: String
 }
 
 type Query {
   cats: [Cats!]!
+}
+
+type Mutation {
+  createCats(catInput: CreateCatInput!): Cats!
+}
+
+input CreateCatInput {
+  name: String!
+  clave: String!
 }
