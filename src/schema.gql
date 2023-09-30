@@ -2,21 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Cats {
+type Users {
   id: Int!
   name: String!
-  clave: String
+  clave: String!
 }
 
 type Query {
-  cats: [Cats!]!
+  user: [Users!]!
 }
 
 type Mutation {
-  createCats(catInput: CreateCatInput!): Cats!
+  createUsers(userInput: CreateUserInput!): Users!
 }
 
-input CreateCatInput {
-  name: String
-  clave: String
+input CreateUserInput {
+  name: String!
+  clave: String!
 }

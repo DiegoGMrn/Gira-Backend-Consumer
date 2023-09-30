@@ -5,21 +5,21 @@ import { Transport, ClientsModule } from '@nestjs/microservices';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import {join} from 'path'
-import { CatsModule } from './cats/cats.module';
+import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [GraphQLModule.forRoot<ApolloDriverConfig>({
     driver: ApolloDriver,
     autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
   }),
-  CatsModule,
+  UsersModule,
     ClientsModule.register([
       {
-        name: 'CATS_SERVICE',
+        name: 'USERS_SERVICE',
         transport: Transport.RMQ,
         options: {
           urls: ['amqp://localhost:5672'],
-          queue: 'cats_queue',
+          queue: 'users_queue',
           queueOptions: {
             durable: false,
           },

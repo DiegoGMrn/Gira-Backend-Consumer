@@ -3,14 +3,15 @@ import { Column, Entity ,PrimaryGeneratedColumn} from 'typeorm';
 
 @Entity()
 @ObjectType()
-export class Cats{
+export class Users{
+    
     @PrimaryGeneratedColumn()
     @Field((type)=>Int)
-    id: number;
+    id?: number;
     @Column()
     @Field()
     name: string;
     @Column()
-    @Field({nullable:true})
+    @Field()
     clave: string;
 }
