@@ -10,8 +10,11 @@ export class Users{
     id?: number;
     @Column()
     @Field()
-    name: string;
+    name?: string;
     @Column()
     @Field()
     clave: string;
+    @Column()
+    @Field()
+    correo: string;
 }

@@ -6,6 +6,7 @@ type Users {
   id: Int!
   name: String!
   clave: String!
+  correo: String!
 }
 
 type Query {
@@ -14,9 +15,16 @@ type Query {
 
 type Mutation {
   createUsers(userInput: CreateUserInput!): Users!
+  loginUsers(loginInput: LoginUserInput!): Boolean!
 }
 
 input CreateUserInput {
   name: String!
   clave: String!
+  correo: String!
+}
+
+input LoginUserInput {
+  clave: String!
+  correo: String!
 }
