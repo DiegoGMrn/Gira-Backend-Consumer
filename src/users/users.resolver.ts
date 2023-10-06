@@ -19,16 +19,21 @@ export class UsersResolver {
     @Mutation((returns) => Users)
     createUsers(@Args('userInput') userInput: CreateUserInput) {
     const result = this.usersService.createUser(userInput);
-    //console.log(result)
+    console.log(result)
     return result;
     }
     
-    //Login Usuario
+
+    
     @Mutation((returns) => Boolean)
-    loginUsers(@Args('loginInput') loginInput: LoginUserInput) {
-    const result = this.usersService.loginUser(loginInput);
-    console.log(result)
-    return result;
+    async loginUsers(@Args('loginInput') loginInput: LoginUserInput) {
+    try {
+        const result = await this.usersService.loginUser(loginInput);
+        return result;
+    } catch (error) {
+        console.error('Error en la llamada a loginUser:', error);
+        return false;
+    }
     }
 }
 
