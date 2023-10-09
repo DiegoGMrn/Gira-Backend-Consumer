@@ -35,6 +35,36 @@ export class UsersResolver {
         return false;
     }
     }
+
+
+     //////////////////////////////////////////// TESTEO JWT ////////////////////////////////////////////////////////
+
+
+
+     @Mutation(() => String)
+async loginUsersTest(@Args('loginInput') loginInput: LoginUserInput) {
+  try {
+    // Realiza una llamada al microservicio para obtener el token JWT
+    const token = await this.usersService.loginUserTest(loginInput);
+
+    if (token) {
+        //console.log(token);
+      return token; // Retorna solo el token JWT como una cadena
+    } else {
+      return "";
+    }
+  } catch (error) {
+    console.error('Error en la llamada a loginUsersTest:', error);
+    return "";
+  }
+}
+
+
+
+
+
+
+
 }
 
 
