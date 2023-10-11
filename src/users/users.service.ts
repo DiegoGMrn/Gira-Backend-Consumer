@@ -6,7 +6,7 @@ import { CreateUserInput } from './dto/create-user.input';
 import { ClientProxy } from '@nestjs/microservices';
 import { LoginUserInput } from './dto/login-user.input';
 import { firstValueFrom } from 'rxjs';
-
+import { UpdatePasswordInput } from './dto/update-userpass.input';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -15,21 +15,24 @@ export class UsersService {
     findAll(): Promise<Users[]>{
         return this.usersRepository.find()
     }
-   
-
+    
+    
     async createUser(user: CreateUserInput):Promise<Users>{
         await this.client.emit('new_user_created', user);
         console.log(user)
         return user;
     }
+    ////////////////////////////////////////////////// TEST CAMBIO CLAVE ///////////////////////////////////////////////
+    async updatePassUser(updatePasswordInput: UpdatePasswordInput): Promise<string> {
+      //await this.client.emit('password_reset', updatePasswordInput);
+      const oldpass = updatePasswordInput.claveAntigua;
+      const newpass = updatePasswordInput.claveNueva;
+      const combinedPasswords = `Antigua contraseña: ${oldpass}, Nueva contraseña: ${newpass}`;
+      
     
-    async loginUser(user: LoginUserInput): Promise<boolean> {
-      const result = await firstValueFrom(
-        this.client.send<boolean, LoginUserInput>('login_user', user),
-      );
-      console.log('log', result);
-      return result;
+      return combinedPasswords;
     }
+    ////////////////////////////////////////////////// TEST CAMBIO CLAVE ///////////////////////////////////////////////
     
     //////////////////////////////////////////// TESTEO JWT ////////////////////////////////////////////////////////
     async loginUserTest(user: LoginUserInput): Promise<string | null> {

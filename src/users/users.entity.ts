@@ -6,7 +6,7 @@ import { Column, Entity ,PrimaryGeneratedColumn} from 'typeorm';
 export class Users{
     
     @PrimaryGeneratedColumn()
-    @Field((type)=>Int)
+    @Field(()=>Int)
     id?: number;
     @Column()
     @Field()

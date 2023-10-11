@@ -15,7 +15,6 @@ type Query {
 
 type Mutation {
   createUsers(userInput: CreateUserInput!): Users!
-  loginUsers(loginInput: LoginUserInput!): Boolean!
   loginUsersTest(loginInput: LoginUserInput!): String!
 }
 
