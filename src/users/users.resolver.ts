@@ -8,7 +8,7 @@ import { CreateUserInput } from './dto/create-user.input';
 import { LoginUserInput } from './dto/login-user.input';
 import { UpdatePasswordInput } from './dto/update-userpass.input';
 import * as jwt from 'jsonwebtoken';
-
+import { JwtPayload } from 'jsonwebtoken';
 @Resolver()
 export class UsersResolver {
     constructor(@Inject('USERS_SERVICE') private client: ClientProxy,private usersService: UsersService){}
@@ -29,13 +29,13 @@ export class UsersResolver {
 
 
     ////////////////////////////////////////////////// TEST CAMBIO CLAVE ///////////////////////////////////////////////
-    @Mutation(() => Users)
+    @Mutation(() => String)
     async resetPassword(
       @Args('resetPasswordInput') resetPasswordInput: UpdatePasswordInput,
       @Context() context,
     ) {
       const authorization = context.req.headers.authorization;
-
+      
      
       if (!authorization) {
         throw new Error('No se proporcionó un token de autorización.');
@@ -43,9 +43,11 @@ export class UsersResolver {
 
       try {
         
-        const decoded = jwt.verify(authorization, 'tu_clave_secreta');
+        const decoded = jwt.verify(authorization, 'tu_clave_secreta') as JwtPayload;;
+        const correo = decoded.correo
         if(decoded){
-          const result = await this.usersService.updatePassUser(resetPasswordInput);
+          const result = await this.usersService.updatePassUser(resetPasswordInput,correo);
+        
           return result
         }
       } catch (error) {

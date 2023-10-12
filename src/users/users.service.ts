@@ -23,14 +23,16 @@ export class UsersService {
         return user;
     }
     ////////////////////////////////////////////////// TEST CAMBIO CLAVE ///////////////////////////////////////////////
-    async updatePassUser(updatePasswordInput: UpdatePasswordInput): Promise<string> {
-      //await this.client.emit('password_reset', updatePasswordInput);
+    async updatePassUser(updatePasswordInput: UpdatePasswordInput, correo: string): Promise<boolean> {
+      
       const oldpass = updatePasswordInput.claveAntigua;
       const newpass = updatePasswordInput.claveNueva;
-      const combinedPasswords = `Antigua contraseña: ${oldpass}, Nueva contraseña: ${newpass}`;
+     
       
-    
-      return combinedPasswords;
+      
+      const token = await firstValueFrom(this.client.send('update_pass_user',{oldpass,newpass,correo}))
+      
+      return token;
     }
     ////////////////////////////////////////////////// TEST CAMBIO CLAVE ///////////////////////////////////////////////
     

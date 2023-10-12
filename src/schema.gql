@@ -15,6 +15,7 @@ type Query {
 
 type Mutation {
   createUsers(userInput: CreateUserInput!): Users!
+  resetPassword(resetPasswordInput: UpdatePasswordInput!): String!
   loginUsersTest(loginInput: LoginUserInput!): String!
 }
 
@@ -22,6 +23,11 @@ input CreateUserInput {
   name: String!
   clave: String!
   correo: String!
+}
+
+input UpdatePasswordInput {
+  claveAntigua: String!
+  claveNueva: String!
 }
 
 input LoginUserInput {
