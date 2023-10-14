@@ -1,9 +1,10 @@
 import {Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class UpdatePasswordInput{
+export class ConfirmCodeInput{
     @Field()
-    claveAntigua?: string;
+    correo: string;
     @Field()
-    claveNueva: string;
+    code: string;
+    
 }

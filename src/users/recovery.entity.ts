@@ -3,18 +3,16 @@ import { Column, Entity ,PrimaryGeneratedColumn} from 'typeorm';
 
 @Entity()
 @ObjectType()
-export class Users{
+export class RecoverPass{
     
     @PrimaryGeneratedColumn()
     @Field(()=>Int)
     id?: number;
     @Column()
     @Field()
-    name?: string;
+    correo: string;
     @Column()
     @Field()
-    clave?: string;
-    @Column()
-    @Field()
-    correo?: string;
+    codigo: string;
+    
 }

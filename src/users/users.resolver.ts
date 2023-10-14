@@ -9,6 +9,10 @@ import { LoginUserInput } from './dto/login-user.input';
 import { UpdatePasswordInput } from './dto/update-userpass.input';
 import * as jwt from 'jsonwebtoken';
 import { JwtPayload } from 'jsonwebtoken';
+import { ConfirmCodeInput } from './dto/confirm-code.input';
+import { RecoveryPassInput } from './dto/recovery-pass.input';
+import { UpdatePasswordInput2 } from './dto/update2-userpass.input';
+
 @Resolver()
 export class UsersResolver {
     constructor(@Inject('USERS_SERVICE') private client: ClientProxy,private usersService: UsersService){}
@@ -19,35 +23,122 @@ export class UsersResolver {
     }
     
    
-    //Creacion Usuario
+   
     @Mutation(() => Users)
     createUsers(@Args('userInput') userInput: CreateUserInput) {
     const result = this.usersService.createUser(userInput);
-    console.log(result)
+    
     return result;
     }
 
-
-    ////////////////////////////////////////////////// TEST CAMBIO CLAVE ///////////////////////////////////////////////
     @Mutation(() => String)
+    async loginUsersTest(@Args('loginInput') loginInput: LoginUserInput) {
+      try {
+        
+        const token = await this.usersService.loginUserTest(loginInput);
+    
+        if (token) {
+            
+          return token;
+        } else {
+          return "";
+        }
+      } catch (error) {
+        console.error('Error en la llamada a loginUsersTest:', error);
+        return "";
+      }
+    }
+    
+
+    @Mutation(() => Boolean)
     async resetPassword(
-      @Args('resetPasswordInput') resetPasswordInput: UpdatePasswordInput,
-      @Context() context,
-    ) {
+      @Args('resetPasswordInput') resetPasswordInput: UpdatePasswordInput,@Context() context,) {
       const authorization = context.req.headers.authorization;
-      
-     
+      if (!authorization) {
+        throw new Error('No se proporcionó un token de autorización.');
+      }
+      try {
+        const decoded = jwt.verify(authorization, 'tu_clave_secreta') as JwtPayload;;
+        const correo = decoded.correo
+        if(decoded){
+          const result = await this.usersService.updatePassUser(resetPasswordInput,correo);
+          return result
+        }
+      } catch (error) {
+        throw new Error('Token no válido. Verificación fallida.');
+      }
+    }
+   
+    @Mutation(() => String)
+    async showInfo(@Context() context) {
+      const authorization = context.req.headers.authorization;
+
       if (!authorization) {
         throw new Error('No se proporcionó un token de autorización.');
       }
 
       try {
-        
+        const decoded = jwt.verify(authorization, 'tu_clave_secreta') as JwtPayload;
+        const correo = decoded.correo;
+
+        if (decoded) {
+          const result = await this.usersService.showInfo(correo);
+          
+
+      
+          const jsonResult = JSON.stringify(result)
+          return jsonResult;
+        }
+      } catch (error) {
+        throw new Error('Token no válido. Verificación fallida.');
+      }
+    }
+
+
+    /////////////////////////////////////////////////////// RECUPERAR CONTRASEÑA ///////////////////////////////////////////////////////
+    @Mutation(() => String)
+    async recoveryPass(@Args('recoveryPassInput') recoveryPassInput: RecoveryPassInput) {
+      if (!recoveryPassInput.correo) {
+        throw new Error('No se proporcionó un correo.');
+      }
+      try {
+        if(recoveryPassInput.correo){
+          const result = await this.usersService.recovery(recoveryPassInput.correo);
+          console.log(result)
+          return result
+        }
+      } catch (error) {
+        throw new Error('Correo no válido. Verificación fallida.');
+      }
+    }
+
+    @Mutation(() => String)
+    async confirmC(@Args('confirmCodeInput') confirmCodeInput: ConfirmCodeInput) {
+      if (!confirmCodeInput) {
+        throw new Error('No se proporcionó la autorización para Confirmar Codigo.');
+      }
+      try {
+        if(confirmCodeInput){
+          const result = await this.usersService.confirmCode(confirmCodeInput.correo,confirmCodeInput.code);
+
+          return result
+        }
+      } catch (error) {
+        throw new Error('Token no válido. Verificación fallida.');
+      }
+    }
+    @Mutation(() => Boolean)
+    async resetPassword2(
+      @Args('resetPasswordInput') resetPasswordInput2: UpdatePasswordInput2,@Context() context,) {
+      const authorization = context.req.headers.authorization;
+      if (!authorization) {
+        throw new Error('No se proporcionó un token de autorización.');
+      }
+      try {
         const decoded = jwt.verify(authorization, 'tu_clave_secreta') as JwtPayload;;
         const correo = decoded.correo
         if(decoded){
-          const result = await this.usersService.updatePassUser(resetPasswordInput,correo);
-        
+          const result = await this.usersService.updatePassUser2(resetPasswordInput2,correo);
           return result
         }
       } catch (error) {
@@ -55,25 +146,8 @@ export class UsersResolver {
       }
     }
     
-////////////////////////////////////////////////// TEST CAMBIO CLAVE ///////////////////////////////////////////////
-     @Mutation(() => String)
-async loginUsersTest(@Args('loginInput') loginInput: LoginUserInput) {
-  try {
-    // Realiza una llamada al microservicio para obtener el token JWT
-    const token = await this.usersService.loginUserTest(loginInput);
-
-    if (token) {
-        //console.log(token);
-      return token; // Retorna solo el token JWT como una cadena
-    } else {
-      return "";
-    }
-  } catch (error) {
-    console.error('Error en la llamada a loginUsersTest:', error);
-    return "";
-  }
-}
-
+   
+    /////////////////////////////////////////////////////// RECUPERAR CONTRASEÑA ///////////////////////////////////////////////////////
 
 
 

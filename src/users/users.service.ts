@@ -8,6 +8,8 @@ import { LoginUserInput } from './dto/login-user.input';
 import { firstValueFrom } from 'rxjs';
 import { UpdatePasswordInput } from './dto/update-userpass.input';
 import { JwtService } from '@nestjs/jwt';
+import { ConfirmCodeInput } from './dto/confirm-code.input';
+
 
 @Injectable()
 export class UsersService {
@@ -22,7 +24,7 @@ export class UsersService {
         console.log(user)
         return user;
     }
-    ////////////////////////////////////////////////// TEST CAMBIO CLAVE ///////////////////////////////////////////////
+   
     async updatePassUser(updatePasswordInput: UpdatePasswordInput, correo: string): Promise<boolean> {
       
       const oldpass = updatePasswordInput.claveAntigua;
@@ -34,14 +36,12 @@ export class UsersService {
       
       return token;
     }
-    ////////////////////////////////////////////////// TEST CAMBIO CLAVE ///////////////////////////////////////////////
-    
-    //////////////////////////////////////////// TESTEO JWT ////////////////////////////////////////////////////////
+   
     async loginUserTest(user: LoginUserInput): Promise<string | null> {
       try {
         // Llama al microservicio para obtener el token JWT
         const token = await firstValueFrom(
-          this.client.send<string, LoginUserInput>('login_user1', user),
+          this.client.send<string, LoginUserInput>('login_user', user),
         );
         console.log(token);
     
@@ -51,7 +51,44 @@ export class UsersService {
         return "";
       }
     }
-    
+    async showInfo(correo: string): Promise<string> {
+      
+      //const correoToken = await firstValueFrom(this.client.send('show_info_user',{correo}))
+      const userInfo = await firstValueFrom(this.client.send('show_info_user',{correo}))
+      
+      
+      return userInfo;
+    }
+    /////////////////////////////////////////////////////// RECUPERAR CONTRASEÑA ///////////////////////////////////////////////////////
+    async recovery(correo: string): Promise<string> {
+      
+      //const correoToken = await firstValueFrom(this.client.send('show_info_user',{correo}))
+      const code = await firstValueFrom(this.client.send('return_code_user',{correo}))
+      
+      
+      return code;
+    }
+
+    async confirmCode(correo: string, code: string): Promise<string> {
+      
+      //const correoToken = await firstValueFrom(this.client.send('show_info_user',{correo}))
+      
+      const resp = await firstValueFrom(this.client.send('confirm_pass_user',{correo,code}))
+      
+      return resp;
+    }
+    async updatePassUser2(updatePasswordInput: UpdatePasswordInput, correo: string): Promise<boolean> {
+      
+      
+      const newpass = updatePasswordInput.claveNueva;
+     
+      
+      
+      const token = await firstValueFrom(this.client.send('update_pass_user2',{newpass,correo}))
+      
+      return token;
+    }
+    /////////////////////////////////////////////////////// RECUPERAR CONTRASEÑA ///////////////////////////////////////////////////////
   
     
     
