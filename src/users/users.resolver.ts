@@ -235,7 +235,7 @@ export class UsersResolver {
             return result
           }
         } catch (error) {
-          throw new Error('Token no válido. Verificación fallida1.');
+          throw new Error('Token no válido. Verificación fallida.');
         }
       }
 }
