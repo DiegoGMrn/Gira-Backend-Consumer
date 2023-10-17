@@ -10,9 +10,9 @@ export class RecoverPass{
     id?: number;
     @Column()
     @Field()
-    correo: string;
+    correo?: string;
     @Column()
     @Field()
-    codigo: string;
+    codigo?: string;
     
 }

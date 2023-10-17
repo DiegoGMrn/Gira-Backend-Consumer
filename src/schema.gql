@@ -21,6 +21,10 @@ type Mutation {
   recoveryPass(recoveryPassInput: RecoveryPassInput!): String!
   confirmC(confirmCodeInput: ConfirmCodeInput!): String!
   resetPassword2(resetPasswordInput: UpdatePasswordInput2!): Boolean!
+  createEquipo(equipoInput: CreateEquipoInput!): Boolean!
+  showInfoEquipo: String!
+  updateEquipoName(updateNameInput: UpdateEquipoNameInput!): Boolean!
+  deleteEquipo(deleteEquipoInput: DeleteEquipoInput!): Boolean!
 }
 
 input CreateUserInput {
@@ -50,4 +54,17 @@ input ConfirmCodeInput {
 
 input UpdatePasswordInput2 {
   claveNueva: String!
+}
+
+input CreateEquipoInput {
+  name: String!
+}
+
+input UpdateEquipoNameInput {
+  antiguoNombreEquipo: String!
+  nuevoNombreEquipo: String!
+}
+
+input DeleteEquipoInput {
+  name: String!
 }
