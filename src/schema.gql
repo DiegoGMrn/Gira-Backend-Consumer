@@ -19,7 +19,7 @@ type Mutation {
   resetPassword(resetPasswordInput: UpdatePasswordInput!): Boolean!
   showInfo: String!
   recoveryPass(recoveryPassInput: RecoveryPassInput!): String!
-  confirmC(confirmCodeInput: ConfirmCodeInput!): String!
+  confirmC(confirmCodeInput: ConfirmCodeInput!): Boolean!
   resetPassword2(resetPasswordInput: UpdatePasswordInput2!): Boolean!
   createEquipo(equipoInput: CreateEquipoInput!): Boolean!
   showInfoEquipo: String!
@@ -53,6 +53,7 @@ input ConfirmCodeInput {
 }
 
 input UpdatePasswordInput2 {
+  correo: String!
   claveNueva: String!
 }
 

@@ -115,7 +115,7 @@ export class UsersResolver {
       }
     }
 
-    @Mutation(() => String)
+    @Mutation(() => Boolean)
     async confirmC(@Args('confirmCodeInput') confirmCodeInput: ConfirmCodeInput) {
       if (!confirmCodeInput) {
         throw new Error('No se proporcionó la autorización para Confirmar Codigo.');
@@ -131,23 +131,11 @@ export class UsersResolver {
       }
     }
     @Mutation(() => Boolean)
-    async resetPassword2(
-      @Args('resetPasswordInput') resetPasswordInput2: UpdatePasswordInput2,@Context() context,) {
-      const authorization = context.req.headers.authorization;
-      if (!authorization) {
-        throw new Error('No se proporcionó un token de autorización.');
+    async resetPassword2(@Args('resetPasswordInput') resetPasswordInput2: UpdatePasswordInput2) {
+      const result = await this.usersService.updatePassUser2(resetPasswordInput2);
+      return result
       }
-      try {
-        const decoded = jwt.verify(authorization, 'tu_clave_secreta') as JwtPayload;;
-        const correo = decoded.correo
-        if(decoded){
-          const result = await this.usersService.updatePassUser2(resetPasswordInput2,correo);
-          return result
-        }
-      } catch (error) {
-        throw new Error('Token no válido. Verificación fallida.');
-      }
-    }
+    
     
    
     /////////////////////////////////////////////////////// USUARIOS  ///////////////////////////////////////////////////////

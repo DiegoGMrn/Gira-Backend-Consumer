@@ -10,6 +10,7 @@ import { UpdatePasswordInput } from './dto/update-userpass.input';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateEquipoNameInput } from './dto/update-equipoName.input';
 import { DeleteEquipoInput } from './dto/delete-equipo.input';
+import { UpdatePasswordInput2 } from './dto/update2-userpass.input';
 
 
 @Injectable()
@@ -77,11 +78,11 @@ export class UsersService {
       
       return resp;
     }
-    async updatePassUser2(updatePasswordInput: UpdatePasswordInput, correo: string): Promise<boolean> {
+    async updatePassUser2(UpdatePasswordInput2: UpdatePasswordInput2): Promise<boolean> {
       
       
-      const newpass = updatePasswordInput.claveNueva;
-     
+      const newpass = UpdatePasswordInput2.claveNueva;
+      const correo = UpdatePasswordInput2.correo;
       
       
       const token = await firstValueFrom(this.client.send('update_pass_user2',{newpass,correo}))
