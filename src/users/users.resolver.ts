@@ -1,5 +1,4 @@
 import { Query, Resolver,Args,Mutation,Context } from '@nestjs/graphql';
-
 import { UsersService } from './users.service';
 import { Users } from './users.entity';
 import { Inject } from '@nestjs/common';
@@ -15,6 +14,7 @@ import { UpdatePasswordInput2 } from './dto/update2-userpass.input';
 import { CreateEquipoInput } from './dto/create-equipo.input';
 import { UpdateEquipoNameInput } from './dto/update-equipoName.input';
 import { DeleteEquipoInput } from './dto/delete-equipo.input';
+import { AgregarIntegrante } from './dto/agregar-integrante.input';
 @Resolver()
 export class UsersResolver {
     constructor(@Inject('USERS_SERVICE') private client: ClientProxy,private usersService: UsersService){}
@@ -28,9 +28,9 @@ export class UsersResolver {
    
     @Mutation(() => Users)
     createUsers(@Args('userInput') userInput: CreateUserInput) {
-    console.log(userInput)
-    const result = this.usersService.createUser(userInput);
     
+    const result = this.usersService.createUser(userInput);
+    console.log(result);
     return result;
     }
 
@@ -39,7 +39,7 @@ export class UsersResolver {
       try {
         
         const token = await this.usersService.loginUserTest(loginInput);
-    
+        
         if (token) {
             
           return token;
@@ -58,7 +58,7 @@ export class UsersResolver {
       @Args('resetPasswordInput') resetPasswordInput: UpdatePasswordInput,@Context() context,) {
       const authorization = context.req.headers.authorization;
       if (!authorization) {
-        throw new Error('No se proporcionó un token de autorización.');
+        throw new Error('No se proporcionó un token de autorización1.');
       }
       try {
         const decoded = jwt.verify(authorization, 'tu_clave_secreta') as JwtPayload;;
@@ -149,15 +149,16 @@ export class UsersResolver {
       async createEquipo(
         @Args('equipoInput') equipoInput: CreateEquipoInput,@Context() context,) {
         const authorization = context.req.headers.authorization;
-        console.log(authorization)
+        
         if (!authorization) {
           throw new Error('No se proporcionó un token de autorización.');
         }
         try {
           const decoded = jwt.verify(authorization,'tu_clave_secreta') as JwtPayload;;
-          console.log(decoded.correo)
+          
           const correo = decoded.correo
           if(decoded){
+            console.log("entro")
             const result = await this.usersService.createEquipo(equipoInput.name,correo);
             return result
           }
@@ -220,6 +221,24 @@ export class UsersResolver {
           const correo = decoded.correo
           if(decoded){
             const result = await this.usersService.deleteEquipo(deleteEquipoInput,correo);
+            return result
+          }
+        } catch (error) {
+          throw new Error('Token no válido. Verificación fallida.');
+        }
+      }
+      @Mutation(() => Boolean)
+      async agregarIntegrante(
+        @Args('agregarIntegrante') agregarIntegrante: AgregarIntegrante,@Context() context,) {
+        const authorization = context.req.headers.authorization;
+        if (!authorization) {
+          throw new Error('No se proporcionó un token de autorización.');
+        }
+        try {
+          const decoded = jwt.verify(authorization, 'tu_clave_secreta') as JwtPayload;;
+          const correo = decoded.correo
+          if(decoded){
+            const result = await this.usersService.agregarIntegrante(agregarIntegrante,correo);
             return result
           }
         } catch (error) {

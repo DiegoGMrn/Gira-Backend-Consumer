@@ -11,6 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UpdateEquipoNameInput } from './dto/update-equipoName.input';
 import { DeleteEquipoInput } from './dto/delete-equipo.input';
 import { UpdatePasswordInput2 } from './dto/update2-userpass.input';
+import { AgregarIntegrante } from './dto/agregar-integrante.input';
 
 
 @Injectable()
@@ -130,6 +131,18 @@ export class UsersService {
       
       
       const token = await firstValueFrom(this.client.send('delete_name_equipo',{name,correo}))
+      
+      return token;
+    }
+    async agregarIntegrante(agregarIntegranteInput: AgregarIntegrante, correo: string): Promise<boolean> {
+      const nombreEquipo = agregarIntegranteInput.nombreEquipo
+      const correoIntegrante = agregarIntegranteInput.correoIntegrante;
+       
+      
+     
+      
+      
+      const token = await firstValueFrom(this.client.send('agregar_integrante',{nombreEquipo,correoIntegrante,correo}))
       
       return token;
     }

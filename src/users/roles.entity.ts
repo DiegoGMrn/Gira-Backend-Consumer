@@ -3,11 +3,12 @@ import { EquipoIntegranteRol } from './equipoIntegranteRol.entity'; // Asegúrat
 
 @ObjectType()
 export class Roles {
+  
   @Field(() => Int)
   idRoles?: number;
-
+  
   @Field()
-  name?: string;
+  name: string;
 
   @Field(() => [EquipoIntegranteRol], { nullable: true }) // Relación uno a muchos con EquipoIntegranteRol
   equipoIntegranteRoles?: EquipoIntegranteRol[];

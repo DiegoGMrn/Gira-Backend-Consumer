@@ -3,11 +3,12 @@ import { EquipoIntegranteRol } from './equipoIntegranteRol.entity'; // Asegúrat
 
 @ObjectType()
 export class Equipos {
+  
   @Field(() => Int)
   idEquipos?: number;
-
+  
   @Field()
-  name?: string;
+  name: string;
 
   @Field()
   proyecto?: string;
