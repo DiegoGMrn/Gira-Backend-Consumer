@@ -22,9 +22,14 @@ export class UsersService {
     }
     
     ////////////////////////////////////////////////////// USUARIOS  ///////////////////////////////////////////////////////
-    async createUser(user: CreateUserInput):Promise<Users>{
-        await this.client.emit('new_user_created', user);
-        return user;
+    async createUser(user: CreateUserInput): Promise<boolean> {
+      try {
+        const resp = await firstValueFrom(this.client.send('new_user_created', user))
+        return resp; 
+      } catch (error) {
+        console.error('Error al emitir el evento:', error);
+        return false; 
+      }
     }
    
     async updatePassUser(updatePasswordInput: UpdatePasswordInput, correo: string): Promise<boolean> {

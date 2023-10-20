@@ -26,13 +26,11 @@ export class UsersResolver {
     
    /////////////////////////////////////////////////////// USUARIOS  ///////////////////////////////////////////////////////
    
-    @Mutation(() => Users)
-    createUsers(@Args('userInput') userInput: CreateUserInput) {
-    
-    const result = this.usersService.createUser(userInput);
-    console.log(result);
-    return result;
-    }
+   @Mutation(() => Boolean) // Cambiar el tipo de retorno a Boolean
+   async createUsers(@Args('userInput') userInput: CreateUserInput) {
+     const result = await this.usersService.createUser(userInput);
+     return result; // Retornar el valor booleano directamente
+   }
 
     @Mutation(() => String)
     async loginUsersTest(@Args('loginInput') loginInput: LoginUserInput) {
@@ -72,7 +70,7 @@ export class UsersResolver {
       }
     }
    
-    @Mutation(() => String)
+    @Query(() => String)
     async showInfo(@Context() context) {
       const authorization = context.req.headers.authorization;
 
@@ -166,7 +164,7 @@ export class UsersResolver {
           throw new Error('Token no válido. Verificación fallida.');
         }
       }
-
+      /*
       @Mutation(() => String)
       async showInfoEquipo(@Context() context) {
         const authorization = context.req.headers.authorization;
@@ -185,6 +183,27 @@ export class UsersResolver {
 
         
             const jsonResult = JSON.stringify(result)
+            return jsonResult;
+          }
+        } catch (error) {
+          throw new Error('Token no válido. Verificación fallida.');
+        }
+      }*/
+      @Query(() => String)
+      async showInfoEquipo(@Context() context): Promise<string> {
+        const authorization = context.req.headers.authorization;
+
+        if (!authorization) {
+          throw new Error('No se proporcionó un token de autorización.');
+        }
+
+        try {
+          const decoded = jwt.verify(authorization, 'tu_clave_secreta') as JwtPayload;
+          const correo = decoded.correo;
+
+          if (decoded) {
+            const result = await this.usersService.showInfoEquipo(correo);
+            const jsonResult = JSON.stringify(result);
             return jsonResult;
           }
         } catch (error) {

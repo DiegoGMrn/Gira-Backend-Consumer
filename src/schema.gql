@@ -11,18 +11,18 @@ type Users {
 
 type Query {
   user: [Users!]!
+  showInfo: String!
+  showInfoEquipo: String!
 }
 
 type Mutation {
-  createUsers(userInput: CreateUserInput!): Users!
+  createUsers(userInput: CreateUserInput!): Boolean!
   loginUsersTest(loginInput: LoginUserInput!): String!
   resetPassword(resetPasswordInput: UpdatePasswordInput!): Boolean!
-  showInfo: String!
   recoveryPass(recoveryPassInput: RecoveryPassInput!): String!
   confirmC(confirmCodeInput: ConfirmCodeInput!): Boolean!
   resetPassword2(resetPasswordInput: UpdatePasswordInput2!): Boolean!
   createEquipo(equipoInput: CreateEquipoInput!): Boolean!
-  showInfoEquipo: String!
   updateEquipoName(updateNameInput: UpdateEquipoNameInput!): Boolean!
   deleteEquipo(deleteEquipoInput: DeleteEquipoInput!): Boolean!
   agregarIntegrante(agregarIntegrante: AgregarIntegrante!): Boolean!
