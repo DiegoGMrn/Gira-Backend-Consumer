@@ -151,7 +151,14 @@ export class UsersService {
       
       return token;
     }
-    
+    async mostrarIntegrantes(correo: string): Promise<string> {
+      
+      
+      const userInfo = await firstValueFrom(this.client.send('mostrar_integrantes_equipo',{correo}))
+      
+      
+      return userInfo;
+    }
     /////////////////////////////////////////////////////// Equipos  ///////////////////////////////////////////////////////
     
 

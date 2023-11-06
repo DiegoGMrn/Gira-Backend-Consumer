@@ -26,6 +26,7 @@ type Mutation {
   updateEquipoName(updateNameInput: UpdateEquipoNameInput!): Boolean!
   deleteEquipo(deleteEquipoInput: DeleteEquipoInput!): Boolean!
   agregarIntegrante(agregarIntegrante: AgregarIntegrante!): Boolean!
+  mostrarIntegrantes(mostrarIntegrantes: MostrarIntegrantes!): String!
 }
 
 input CreateUserInput {
@@ -74,4 +75,8 @@ input DeleteEquipoInput {
 input AgregarIntegrante {
   nombreEquipo: String!
   correoIntegrante: String!
+}
+
+input MostrarIntegrantes {
+  nombreEquipo: String!
 }

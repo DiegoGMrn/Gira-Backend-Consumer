@@ -15,6 +15,7 @@ import { CreateEquipoInput } from './dto/create-equipo.input';
 import { UpdateEquipoNameInput } from './dto/update-equipoName.input';
 import { DeleteEquipoInput } from './dto/delete-equipo.input';
 import { AgregarIntegrante } from './dto/agregar-integrante.input';
+import { MostrarIntegrantes } from './dto/mostrar-integrantes.input';
 @Resolver()
 export class UsersResolver {
     constructor(@Inject('USERS_SERVICE') private client: ClientProxy,private usersService: UsersService){}
@@ -26,10 +27,10 @@ export class UsersResolver {
     
    /////////////////////////////////////////////////////// USUARIOS  ///////////////////////////////////////////////////////
    
-   @Mutation(() => Boolean) // Cambiar el tipo de retorno a Boolean
+   @Mutation(() => Boolean) 
    async createUsers(@Args('userInput') userInput: CreateUserInput) {
      const result = await this.usersService.createUser(userInput);
-     return result; // Retornar el valor booleano directamente
+     return result; 
    }
 
     @Mutation(() => String)
@@ -56,7 +57,7 @@ export class UsersResolver {
       @Args('resetPasswordInput') resetPasswordInput: UpdatePasswordInput,@Context() context,) {
       const authorization = context.req.headers.authorization;
       if (!authorization) {
-        throw new Error('No se proporcionó un token de autorización1.');
+        throw new Error('No se proporcionó un token de autorización.');
       }
       try {
         const decoded = jwt.verify(authorization, 'tu_clave_secreta') as JwtPayload;;
@@ -264,6 +265,32 @@ export class UsersResolver {
           throw new Error('Token no válido. Verificación fallida.');
         }
       }
+
+      @Mutation(() => String)
+      async mostrarIntegrantes(
+        @Args('mostrarIntegrantes') mostrarIntegrates: MostrarIntegrantes,@Context() context,) {
+      const authorization = context.req.headers.authorization;
+
+      if (!authorization) {
+        throw new Error('No se proporcionó un token de autorización.');
+      }
+
+      try {
+        const decoded = jwt.verify(authorization, 'tu_clave_secreta') as JwtPayload;
+        const correo = decoded.correo;
+
+        if (decoded) {
+          const result = await this.usersService.mostrarIntegrantes(correo);
+          
+
+      
+          const jsonResult = JSON.stringify(result)
+          return jsonResult;
+        }
+      } catch (error) {
+        throw new Error('Token no válido. Verificación fallida.');
+      }
+    }
 }
 
 
