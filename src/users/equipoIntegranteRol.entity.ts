@@ -7,14 +7,12 @@ export class EquipoIntegranteRol {
   @Field(() => Int)
   id?: number;
 
-  @Field(() => Equipos) 
+  @Field(() => Equipos)
   equipo?: Equipos;
-  /*
-  @Field(() => Integrantes) 
-  integrante?: Integrantes;
-  */
-  @Field(() => Roles) 
+
+  @Field(() => Roles)
   rol?: Roles;
 
-  
+  @Field(() => String) 
+  correoIntegrante?: string;
 }

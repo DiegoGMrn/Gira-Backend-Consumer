@@ -9,10 +9,16 @@ type Users {
   correo: String!
 }
 
+type EquipoProyecto {
+  id: Int!
+  nombreEquipo: String!
+}
+
 type Query {
   user: [Users!]!
   showInfo: String!
   showInfoEquipo: String!
+  showInfoProyecto: String!
 }
 
 type Mutation {
@@ -27,6 +33,9 @@ type Mutation {
   deleteEquipo(deleteEquipoInput: DeleteEquipoInput!): Boolean!
   agregarIntegrante(agregarIntegrante: AgregarIntegrante!): Boolean!
   mostrarIntegrantes(mostrarIntegrantes: MostrarIntegrantes!): String!
+  createProyecto(proyectoInput: CreateProyectoInput!): Boolean!
+  deleteProyecto(deleteProyectoInput: DeleteProyectoInput!): Boolean!
+  agregarEquipo(agregarEquipo: AgregarEquipo!): Boolean!
 }
 
 input CreateUserInput {
@@ -79,4 +88,17 @@ input AgregarIntegrante {
 
 input MostrarIntegrantes {
   nombreEquipo: String!
+}
+
+input CreateProyectoInput {
+  name: String!
+}
+
+input DeleteProyectoInput {
+  name: String!
+}
+
+input AgregarEquipo {
+  idProyecto: Float!
+  idEquipo: Float!
 }

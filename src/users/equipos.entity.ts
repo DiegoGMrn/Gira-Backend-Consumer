@@ -9,9 +9,13 @@ export class Equipos {
   
   @Field()
   name: string;
+  
 
   @Field()
   proyecto?: string;
+
+  @Field()
+  correoCreador: string;
 
   @Field(() => [EquipoIntegranteRol], { nullable: true }) // Relación muchos a muchos a través de EquipoIntegranteRol
   equipoIntegrantes?: EquipoIntegranteRol[];
