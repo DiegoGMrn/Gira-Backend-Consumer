@@ -1,0 +1,2 @@
+CREATE DATABASE db_crud;
+CREATE DATABASE db_crud2;

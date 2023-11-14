@@ -242,7 +242,7 @@ export class UsersResolver {
         }
       }
 
-      @Mutation(() => String)
+      @Query(() => String)
       async mostrarIntegrantes(
         @Args('mostrarIntegrantes') mostrarIntegrates: MostrarIntegrantes,@Context() context,) {
       const authorization = context.req.headers.authorization;
@@ -256,7 +256,7 @@ export class UsersResolver {
         const correo = decoded.correo;
 
         if (decoded) {
-          const result = await this.usersService.mostrarIntegrantes(correo);
+          const result = await this.usersService.mostrarIntegrantes(correo,mostrarIntegrates.nombreEquipo);
           
 
       

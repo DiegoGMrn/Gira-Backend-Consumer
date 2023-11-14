@@ -37,25 +37,24 @@ import { ProyectosModule } from './proyectos/proyectos.module';
         },
       },
     ]),TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3307,
-      username: 'user_crud',
-      password: 'root',
-      database: 'db_crud',
-      autoLoadEntities:true,
-      synchronize: true,
-      entities: [__dirname + '/**/*.entity{.ts,.js'],}),
+      
+        "name": "default",
+        "type": "postgres",
+        "url": "postgres://rukwoxhs:UW_pQtefIkPwl35b87k25aq-2yyWESrv@isabelle.db.elephantsql.com/rukwoxhs", 
+        "synchronize": true,
+        "logging": true,
+        "entities": ["src/entity/."],}),
+      
      TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3310,
-      username: 'user_crud2',
-      password: 'root',
-      database: 'db_crud2',
-      autoLoadEntities:true,
-      synchronize: true,
-      entities: [__dirname + '/**/*.entity{.ts,.js'],})
+      
+        "name": "default",
+        "type": "postgres",
+        "url": "postgres://rukwoxhs:UW_pQtefIkPwl35b87k25aq-2yyWESrv@isabelle.db.elephantsql.com/rukwoxhs", 
+        "synchronize": true,
+        "logging": true,
+        "entities": ["src/entity/."],}),
+      
+      
      ],
   controllers: [AppController],
   providers: [AppService],

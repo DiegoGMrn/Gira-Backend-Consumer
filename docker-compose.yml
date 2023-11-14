@@ -14,26 +14,14 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: db_crud
-      MYSQL_USER: user_crud
-      MYSQL_PASSWORD: root
+      
     volumes:
       - ./mysql:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init.sh:/docker-entrypoint-initdb.d/init.sh
     ports:
-      - "3307:3306"
+      - "3306:3306"
+    command: ["/bin/bash", "/docker-entrypoint-initdb.d/init.sh"]
 
-  mysql_db2:
-    image: mysql:8.0
-    container_name: mysql_db2
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: db_crud2
-      MYSQL_USER: user_crud2
-      MYSQL_PASSWORD: root
-    volumes:
-      - ./mysql_db2:/var/lib/mysql  
-    ports:
-      - "3310:3306"
-  
+
   
