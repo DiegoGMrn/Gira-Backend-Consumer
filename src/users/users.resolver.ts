@@ -16,6 +16,7 @@ import { UpdateEquipoNameInput } from './dto/update-equipoName.input';
 import { DeleteEquipoInput } from './dto/delete-equipo.input';
 import { AgregarIntegrante } from './dto/agregar-integrante.input';
 import { MostrarIntegrantes } from './dto/mostrar-integrantes.input';
+import { MostrarEquiposProyecto } from './dto/mostrar-equipos-proyecto.input';
 @Resolver()
 export class UsersResolver {
     constructor(@Inject('USERS_SERVICE') private client: ClientProxy,private usersService: UsersService){}
@@ -261,6 +262,28 @@ export class UsersResolver {
 
       
           const jsonResult = JSON.stringify(result)
+          return jsonResult;
+        }
+      } catch (error) {
+        throw new Error('Token no válido. Verificación fallida.');
+      }
+    }
+
+    @Query(() => String)
+    async showInfoEquipoProyecto(@Args('mostrarEquiposProyecto') mostrarEquiposProyecto: MostrarEquiposProyecto, @Context() context): Promise<string> {
+      const authorization = context.req.headers.authorization;
+
+      if (!authorization) {
+        throw new Error('No se proporcionó un token de autorización.');
+      }
+
+      try {
+        const decoded = jwt.verify(authorization, 'tu_clave_secreta') as JwtPayload;
+        const correo = decoded.correo;
+
+        if (decoded) {
+          const result = await this.usersService.showInfoEquipoProyecto(mostrarEquiposProyecto.idEquipo);
+          const jsonResult = JSON.stringify(result);
           return jsonResult;
         }
       } catch (error) {

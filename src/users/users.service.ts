@@ -160,6 +160,15 @@ export class UsersService {
       return userInfo;
     }
 
+    async showInfoEquipoProyecto(idEquipo: string): Promise<string> {
+      
+      
+      const equipoInfo = await firstValueFrom(this.client.send('show_info_equipo_proyecto',{idEquipo}))
+      
+      
+      return equipoInfo;
+    }
+
     
     /////////////////////////////////////////////////////// Equipos  ///////////////////////////////////////////////////////
     
