@@ -12,6 +12,7 @@ import { UpdateEquipoNameInput } from './dto/update-equipoName.input';
 import { DeleteEquipoInput } from './dto/delete-equipo.input';
 import { UpdatePasswordInput2 } from './dto/update2-userpass.input';
 import { AgregarIntegrante } from './dto/agregar-integrante.input';
+import { AgregarRol } from './dto/agregar-rol.input';
 
 
 @Injectable()
@@ -167,6 +168,20 @@ export class UsersService {
       
       
       return equipoInfo;
+    }
+
+    async agregarRol(agregarRolInput: AgregarRol, correo: string): Promise<boolean> {
+      const correoIntegrante = agregarRolInput.correoIntegrante;
+      const equipoId = agregarRolInput.equipoId;
+      const idRol = agregarRolInput.idRol;
+       
+      
+     
+      
+      
+      const token = await firstValueFrom(this.client.send('agregar_rol',{correoIntegrante,equipoId,idRol}))
+      
+      return token;
     }
 
     
