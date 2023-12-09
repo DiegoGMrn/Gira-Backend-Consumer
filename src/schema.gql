@@ -42,6 +42,7 @@ type Mutation {
   updateEquipoName(updateNameInput: UpdateEquipoNameInput!): Boolean!
   deleteEquipo(deleteEquipoInput: DeleteEquipoInput!): Boolean!
   agregarIntegrante(agregarIntegrante: AgregarIntegrante!): Boolean!
+  agregarRol(agregarRol: AgregarRol!): Boolean!
   createProyecto(proyectoInput: CreateProyectoInput!): Boolean!
   deleteProyecto(deleteProyectoInput: DeleteProyectoInput!): Boolean!
   agregarEquipo(agregarEquipo: AgregarEquipo!): Boolean!
@@ -93,6 +94,12 @@ input DeleteEquipoInput {
 input AgregarIntegrante {
   nombreEquipo: String!
   correoIntegrante: String!
+}
+
+input AgregarRol {
+  correoIntegrante: String!
+  equipoId: Float!
+  idRol: Float!
 }
 
 input CreateProyectoInput {
