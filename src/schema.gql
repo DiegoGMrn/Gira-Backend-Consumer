@@ -11,7 +11,15 @@ type Users {
 
 type EquipoProyecto {
   id: Int!
-  nombreEquipo: String!
+  idEquipo: Float!
+  proyecto: Proyectos!
+}
+
+type Proyectos {
+  idProyecto: Int!
+  name: String!
+  correoCreador: String!
+  equipos: [EquipoProyecto!]
 }
 
 type Query {

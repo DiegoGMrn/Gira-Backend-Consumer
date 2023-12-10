@@ -35,6 +35,16 @@ import { ProyectosModule } from './proyectos/proyectos.module';
             durable: false,
           },
         },
+      },{
+        name: 'ROLES_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: ['amqp://localhost:5672'],
+          queue: 'roles_queue',
+          queueOptions: {
+            durable: false,
+          },
+        },
       },
     ]),TypeOrmModule.forRoot({
       
