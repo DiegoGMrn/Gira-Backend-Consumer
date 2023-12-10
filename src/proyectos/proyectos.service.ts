@@ -14,6 +14,7 @@ import { CreateProyectoInput } from './dto/create-proyecto.input';
 import { DeleteProyectoInput } from './dto/delete-proyecto.input';
 import { normalize } from 'path';
 import { AgregarEquipo } from './dto/agregar-equipo.input';
+import { DeleteEquipoInput } from './dto/delete-equipo.input';
 @Injectable()
 export class ProyectosService {
     constructor(@Inject('PROYECTO_SERVICE') private readonly client: ClientProxy,@InjectRepository(Proyectos) private proyectosRepository:Repository<Proyectos>,private jwtService: JwtService){}
@@ -54,6 +55,19 @@ export class ProyectosService {
       
       
       const token = await firstValueFrom(this.client.send('agregar_equipo',{idProyecto,idEquipo,correo}))
+      
+      return token;
+    }
+
+
+    async deleteEquipo(deleteEquipoInput: DeleteEquipoInput, correo: string): Promise<boolean> {
+      const idP = deleteEquipoInput.idProyecto;
+      const idE = deleteEquipoInput.idEquipo;
+      
+    
+      
+      
+      const token = await firstValueFrom(this.client.send('delete_name_equipo',{idP,idE,correo}))
       
       return token;
     }

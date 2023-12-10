@@ -7,6 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import { JwtPayload } from 'jsonwebtoken';
 import { DeleteProyectoInput } from './dto/delete-proyecto.input';
 import { AgregarEquipo } from './dto/agregar-equipo.input';
+import { DeleteEquipoInput } from './dto/delete-equipo.input';
 
 @Resolver()
 export class ProyectosResolver {
@@ -88,6 +89,25 @@ export class ProyectosResolver {
           const correo = decoded.correo
           if(decoded){
             const result = await this.proyectoService.agregarEquipo(agregarEquipo,correo);
+            return result
+          }
+        } catch (error) {
+          throw new Error('Token no válido. Verificación fallida.');
+        }
+      }
+
+      @Mutation(() => Boolean)
+      async deleteEquipo(
+        @Args('deleteEquipoInput') deleteEquipoInput: DeleteEquipoInput,@Context() context,) {
+        const authorization = context.req.headers.authorization;
+        if (!authorization) {
+          throw new Error('No se proporcionó un token de autorización.');
+        }
+        try {
+          const decoded = jwt.verify(authorization, 'tu_clave_secreta') as JwtPayload;;
+          const correo = decoded.correo
+          if(decoded){
+            const result = await this.proyectoService.deleteEquipo(deleteEquipoInput,correo);
             return result
           }
         } catch (error) {
