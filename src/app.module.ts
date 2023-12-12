@@ -8,12 +8,14 @@ import {join} from 'path'
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProyectosModule } from './proyectos/proyectos.module';
+import { RolesModule } from './roles/roles.module';
+import { TaskModule } from './task/task.module';
 @Module({
   imports: [GraphQLModule.forRoot<ApolloDriverConfig>({
     driver: ApolloDriver,
     autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
   }),
-  UsersModule,ProyectosModule,
+  UsersModule,ProyectosModule,RolesModule,TaskModule,
     ClientsModule.register([
       {
         name: 'USERS_SERVICE',
@@ -41,6 +43,16 @@ import { ProyectosModule } from './proyectos/proyectos.module';
         options: {
           urls: ['amqp://localhost:5672'],
           queue: 'roles_queue',
+          queueOptions: {
+            durable: false,
+          },
+        },
+      },{
+        name: 'TASK_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: ['amqp://localhost:5672'],
+          queue: 'task_queue',
           queueOptions: {
             durable: false,
           },

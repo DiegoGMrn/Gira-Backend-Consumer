@@ -48,7 +48,7 @@ export class UsersResolver {
           return "";
         }
       } catch (error) {
-        console.error('Error en la llamada a loginUsersTest:', error);
+        console.error('Error en la llamada a loginUsersTest::', error);
         return "";
       }
     }

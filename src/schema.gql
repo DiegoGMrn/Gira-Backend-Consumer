@@ -29,6 +29,9 @@ type Query {
   mostrarIntegrantes(mostrarIntegrantes: MostrarIntegrantes!): String!
   showInfoEquipoProyecto(mostrarEquiposProyecto: MostrarEquiposProyecto!): String!
   showInfoProyecto: String!
+  showInfoRoles: String!
+  showTaskProject(mostrarTaskProject: ShowTaskProjectInput!): String!
+  showSoloTaskProject(mostrarSoloTaskProject: ShowSoloTaskProjectInput!): String!
 }
 
 input MostrarIntegrantes {
@@ -37,6 +40,14 @@ input MostrarIntegrantes {
 
 input MostrarEquiposProyecto {
   idEquipo: String!
+}
+
+input ShowTaskProjectInput {
+  idTask: Float!
+}
+
+input ShowSoloTaskProjectInput {
+  idProyecto: Float!
 }
 
 type Mutation {
@@ -54,6 +65,13 @@ type Mutation {
   createProyecto(proyectoInput: CreateProyectoInput!): Boolean!
   deleteProyecto(deleteProyectoInput: DeleteProyectoInput!): Boolean!
   agregarEquipo(agregarEquipo: AgregarEquipo!): Boolean!
+  deleteEquipoProyecto(deleteEquipoInput: DeleteEquipoProyectoInput!): Boolean!
+  createTask(taskInput: CreateTaskInput!): Boolean!
+  deleteTask(taskDeleteInput: DeleteTaskInput!): Boolean!
+  createTaskDescripcion(taskDescripcionInput: CreateTaskDescripcionInput!): Boolean!
+  createTaskComentary(taskComentaryInput: CreateTaskComentaryInput!): Boolean!
+  updateTaskComentary(updateTaskComentaryInput: UpdateTaskComentaryInput!): Boolean!
+  deleteComentary(comentaryDeleteInput: DeleteComentaryInput!): Boolean!
 }
 
 input CreateUserInput {
@@ -121,4 +139,42 @@ input DeleteProyectoInput {
 input AgregarEquipo {
   idProyecto: Float!
   idEquipo: Float!
+}
+
+input DeleteEquipoProyectoInput {
+  idProyecto: Float!
+  idEquipo: Float!
+}
+
+input CreateTaskInput {
+  name: String!
+  fechaV: String!
+  idEquipo: Float!
+  idProyecto: Float!
+}
+
+input DeleteTaskInput {
+  idTask: Float!
+}
+
+input CreateTaskDescripcionInput {
+  idTask: Float!
+  descripcion: String!
+}
+
+input CreateTaskComentaryInput {
+  idProyecto: Float!
+  idEquipo: Float!
+  idTarea: Float!
+  comentario: String!
+}
+
+input UpdateTaskComentaryInput {
+  idComentary: Float!
+  comentario: String!
+  idTask: Float!
+}
+
+input DeleteComentaryInput {
+  idComentary: Float!
 }

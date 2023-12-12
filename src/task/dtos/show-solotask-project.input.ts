@@ -1,10 +1,9 @@
 import {Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class DeleteEquipoInput{
+export class ShowSoloTaskProjectInput{
     @Field()
     idProyecto: number;
-    @Field()
-    idEquipo: number;
+    
     
 }

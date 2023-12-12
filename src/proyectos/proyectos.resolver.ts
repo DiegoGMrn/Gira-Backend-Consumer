@@ -7,8 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import { JwtPayload } from 'jsonwebtoken';
 import { DeleteProyectoInput } from './dto/delete-proyecto.input';
 import { AgregarEquipo } from './dto/agregar-equipo.input';
-import { DeleteEquipoInput } from './dto/delete-equipo.input';
-
+import { DeleteEquipoProyectoInput } from './dto/delete-equipo-proyecto.input';
 @Resolver()
 export class ProyectosResolver {
     constructor(@Inject('PROYECTO_SERVICE') private client: ClientProxy,private proyectoService: ProyectosService){}
@@ -17,7 +16,7 @@ export class ProyectosResolver {
       async createProyecto(
         @Args('proyectoInput') proyectoInput: CreateProyectoInput,@Context() context,) {
         const authorization = context.req.headers.authorization;
-        
+        console.log("asd1",proyectoInput)
         if (!authorization) {
           throw new Error('No se proporcionó un tokeen de autorización.');
         }
@@ -97,8 +96,8 @@ export class ProyectosResolver {
       }
 
       @Mutation(() => Boolean)
-      async deleteEquipo(
-        @Args('deleteEquipoInput') deleteEquipoInput: DeleteEquipoInput,@Context() context,) {
+      async deleteEquipoProyecto(
+        @Args('deleteEquipoInput') deleteEquipoInput: DeleteEquipoProyectoInput,@Context() context,) {
         const authorization = context.req.headers.authorization;
         if (!authorization) {
           throw new Error('No se proporcionó un token de autorización.');
