@@ -86,6 +86,24 @@ export class TaskService {
         return null;
     }
 }
+
+async updateTaskState(idTarea:number,correo:string): Promise<boolean> {
+  
+  console.log(idTarea)
+  const token = await firstValueFrom(this.client.send('update_task_state',{idTarea,correo}))
+  
+  
+  return token;
+}
+
+async updateTaskName(idTarea:number,nuevoNombre:string,correo:string): Promise<boolean> {
+  
+  console.log(idTarea)
+  const token = await firstValueFrom(this.client.send('update_task_name',{idTarea,nuevoNombre,correo}))
+  
+  
+  return token;
+}
   
 
   

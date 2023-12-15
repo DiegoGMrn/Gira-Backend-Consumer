@@ -15,6 +15,8 @@ import { UpdateTaskComentaryInput } from './dtos/update-comentario.input';
 import { DeleteComentaryInput } from './dtos/delete-comentariy.input';
 import { ShowTaskProjectInput } from './dtos/show-task-proyect.input';
 import { ShowSoloTaskProjectInput } from './dtos/show-solotask-project.input';
+import { UpdateTaskStateInput } from './dtos/update-task-state.input';
+import { UpdateTaskNameInput } from './dtos/update-name-task.input';
 
 
 
@@ -211,6 +213,56 @@ export class TaskResolver {
         throw new Error('Token no válido1. Verificación fallida.');
       }
     }
+
+    @Mutation(() => Boolean)
+    async updateStateTask(
+      @Args('updateTaskStateInput') updateTaskStateInput: UpdateTaskStateInput,@Context() context,) {
+      const authorization = context.req.headers.authorization;
+      
+      if (!authorization) {
+        throw new Error('No se proporcionó un tokeen de autorización1.');
+      }
+      try {
+        const decoded = jwt.verify(authorization,'tu_clave_secreta') as JwtPayload;;
+        
+        const correo = decoded.correo
+        
+        if(decoded){
+          
+          const result = await this.taskService.updateTaskState(updateTaskStateInput.idTarea,correo);
+          
+          return result
+        }
+      } catch (error) {
+        throw new Error('Token no válido1. Verificación fallida.');
+      }
+    }
+
+    @Mutation(() => Boolean)
+    async updateNameTask(
+      @Args('updateTaskNameInput') updateTaskNameInput: UpdateTaskNameInput,@Context() context,) {
+      const authorization = context.req.headers.authorization;
+      
+      if (!authorization) {
+        throw new Error('No se proporcionó un tokeen de autorización1.');
+      }
+      try {
+        const decoded = jwt.verify(authorization,'tu_clave_secreta') as JwtPayload;;
+        
+        const correo = decoded.correo
+        
+        if(decoded){
+          
+          const result = await this.taskService.updateTaskName(updateTaskNameInput.idTarea,updateTaskNameInput.nuevoNombre,correo);
+          
+          return result
+        }
+      } catch (error) {
+        throw new Error('Token no válido1. Verificación fallida.');
+      }
+    }
+
+    
 }
 
 
